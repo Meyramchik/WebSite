@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Каталог Университетов{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              neon: {
+                blue: "#00d4ff",
+                purple: "#d946ef",
+                dark: "#0f172a",
+              },
+            },
+            backdropFilter: {
+              glass: "blur(10px)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: #d946ef #1e293b;
+      }
+
+      *::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      *::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background: #d946ef;
+        border-radius: 4px;
+      }
+
+      *::-webkit-scrollbar-thumb:hover {
+        background: #00d4ff;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+      }
+
+      .glass-effect {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 212, 255, 0.1);
+      }
+
+      .glow-neon-blue {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+      }
+
+      .glow-neon-purple {
+        box-shadow: 0 0 20px rgba(217, 70, 239, 0.3);
+      }
+
+      .card-glass {
+        background: rgba(30, 41, 59, 0.5);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .card-glass:hover {
+        background: rgba(30, 41, 59, 0.8);
+        border-color: rgba(0, 212, 255, 0.5);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+      }
+
+      .btn-neon-blue {
+        background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+        color: #0f172a;
+        transition: all 0.3s ease;
+      }
+
+      .btn-neon-blue:hover {
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+        transform: scale(1.05);
+      }
+
+      .btn-neon-purple {
+        background: linear-gradient(135deg, #d946ef 0%, #a855f7 100%);
+        color: white;
+        transition: all 0.3s ease;
+      }
+
+      .btn-neon-purple:hover {
+        box-shadow: 0 0 20px rgba(217, 70, 239, 0.6);
+        transform: scale(1.05);
+      }
+
+      .text-glow-blue {
+        color: #00d4ff;
+        text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      }
+
+      .text-glow-purple {
+        color: #d946ef;
+        text-shadow: 0 0 10px rgba(217, 70, 239, 0.5);
+      }
+
+      .input-glass {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        color: #e2e8f0;
+        transition: all 0.3s ease;
+      }
+
+      .input-glass:focus {
+        outline: none;
+        background: rgba(15, 23, 42, 0.8);
+        border-color: rgba(0, 212, 255, 0.6);
+        box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+      }
+
+      .input-glass::placeholder {
+        color: rgba(226, 232, 240, 0.5);
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      .float-animation {
+        animation: float 3s ease-in-out infinite;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, #00d4ff 0%, #d946ef 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="text-gray-100">
+    <!-- Header -->
+    <header
+      class="sticky top-0 z-50 glass-effect border-b border-neon-blue/20 py-4"
+    >
+      <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-10 h-10 bg-gradient-to-br from-neon-blue to-neon-purple rounded-lg flex items-center justify-center glow-neon-blue"
+            >
+              <span class="text-white font-bold">🚀</span>
+            </div>
+            <a
+              href="{% url 'universities:index' %}"
+              class="text-xl font-bold gradient-text hover:opacity-80 transition"
+            >
+              Universe
+            </a>
+          </div>
+          <div class="hidden md:flex items-center gap-6">
+            <a
+              href="{% url 'universities:index' %}"
+              class="text-gray-300 hover:text-neon-blue transition"
+              >Каталог</a
+            >
+            <a
+              href="/admin/"
+              class="px-4 py-2 btn-neon-blue rounded-lg font-semibold text-sm"
+              >Админка</a
+            >
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen">{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="glass-effect border-t border-neon-blue/20 mt-20 py-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 class="text-lg font-bold text-glow-blue mb-4">
+              Universe Catalog
+            </h3>
+            <p class="text-gray-400 text-sm">
+              Современный каталог лучших университетов для абитуриентов
+            </p>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-glow-purple mb-4">
+              Быстрые ссылки
+            </h3>
+            <ul class="text-gray-400 text-sm space-y-2">
+              <li>
+                <a
+                  href="{% url 'universities:index' %}"
+                  class="hover:text-neon-blue transition"
+                  >Все университеты</a
+                >
+              </li>
+              <li>
+                <a href="/admin/" class="hover:text-neon-blue transition"
+                  >Администратору</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold text-neon-blue mb-4">Информация</h3>
+            <p class="text-gray-400 text-sm">
+              Разработано с использованием Django 5.x и Tailwind CSS
+            </p>
+          </div>
+        </div>
+        <div class="border-t border-neon-blue/20 pt-8">
+          <p class="text-center text-gray-400 text-sm">
+            © 2024 Universe Catalog. Все права защищены.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

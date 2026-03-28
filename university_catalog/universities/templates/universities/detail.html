@@ -1,0 +1,193 @@
+{% extends "universities/base.html" %} {% block title %}{{ university.name }} -
+Universe Catalog{% endblock %} {% block content %}
+<div class="py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 mb-8 text-sm text-gray-400">
+      <a
+        href="{% url 'universities:index' %}"
+        class="text-neon-blue hover:underline"
+        >Все университеты</a
+      >
+      <span>→</span>
+      <span class="text-neon-purple">{{ university.name }}</span>
+    </div>
+
+    <!-- Main Card -->
+    <div class="glass-effect rounded-2xl overflow-hidden glow-neon-blue mb-8">
+      <!-- Logo Section -->
+      <div
+        class="h-64 bg-gradient-to-br from-neon-blue/10 to-neon-purple/10 flex items-center justify-center overflow-hidden"
+      >
+        {% if university.logo %}
+        <img
+          src="{{ university.logo.url }}"
+          alt="{{ university.name }}"
+          class="w-full h-full object-cover"
+        />
+        {% else %}
+        <div class="text-8xl">🏫</div>
+        {% endif %}
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"
+        ></div>
+      </div>
+
+      <!-- Content Section -->
+      <div class="p-8 md:p-12">
+        <!-- Header -->
+        <div class="mb-8">
+          <h1 class="text-4xl md:text-5xl font-bold text-glow-blue mb-4">
+            {{ university.name }}
+          </h1>
+          <div class="flex items-center gap-3 text-lg text-gray-300 mb-6">
+            <span class="text-2xl">📍</span>
+            <span>{{ university.city }}</span>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 p-6 bg-neon-blue/5 rounded-xl border border-neon-blue/10"
+        >
+          <div>
+            <p class="text-gray-400 text-sm font-semibold mb-2">
+              ПРОХОДНОЙ БАЛЛ
+            </p>
+            <p class="text-4xl font-bold text-neon-purple">
+              {{ university.passing_score }} баллов
+            </p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm font-semibold mb-2">СТАТУС</p>
+            <p class="text-2xl font-bold text-neon-blue">Активен</p>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-8">
+          <h2 class="text-2xl font-bold text-glow-blue mb-4">О университете</h2>
+          <div class="text-gray-300 leading-relaxed space-y-4">
+            {{ university.description }}
+          </div>
+        </div>
+
+        <!-- Website Link -->
+        {% if university.website %}
+        <div class="mb-8 p-6 card-glass rounded-xl">
+          <p class="text-gray-400 text-sm font-semibold mb-3">
+            ОФИЦИАЛЬНЫЙ САЙТ
+          </p>
+          <a
+            href="{{ university.website }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-6 py-3 btn-neon-blue rounded-lg font-semibold hover:shadow-lg transition"
+          >
+            🌐 Перейти на сайт
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              ></path>
+            </svg>
+          </a>
+        </div>
+        {% endif %}
+
+        <!-- Info Grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 card-glass rounded-xl mb-8"
+        >
+          <div>
+            <p class="text-gray-500 text-xs font-bold uppercase mb-1">
+              Дата добавления
+            </p>
+            <p class="text-gray-300">
+              {{ university.created_at|date:"d.m.Y" }}
+            </p>
+          </div>
+          <div>
+            <p class="text-gray-500 text-xs font-bold uppercase mb-1">
+              Последнее обновление
+            </p>
+            <p class="text-gray-300">
+              {{ university.updated_at|date:"d.m.Y H:i" }}
+            </p>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4">
+          <a
+            href="{% url 'universities:index' %}"
+            class="px-6 py-3 glass-effect rounded-lg font-semibold hover:border-neon-blue hover:border-opacity-50 transition border border-gray-600"
+          >
+            ← Вернуться
+          </a>
+          <a
+            href="/admin/universities/university/{{ university.pk }}/change/"
+            class="px-6 py-3 btn-neon-purple rounded-lg font-semibold"
+          >
+            ✏️ Редактировать
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Universities -->
+    {% if related_universities %}
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-glow-purple mb-6">
+        Другие университеты в {{ university.city }}
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for related in related_universities %}
+        <a href="{% url 'universities:detail' related.pk %}" class="group">
+          <div class="card-glass rounded-xl overflow-hidden">
+            <div
+              class="h-32 bg-gradient-to-br from-neon-blue/10 to-neon-purple/10 flex items-center justify-center overflow-hidden"
+            >
+              {% if related.logo %}
+              <img
+                src="{{ related.logo.url }}"
+                alt="{{ related.name }}"
+                class="w-full h-full object-cover group-hover:scale-110 transition"
+              />
+              {% else %}
+              <div class="text-4xl">🏫</div>
+              {% endif %}
+            </div>
+            <div class="p-4">
+              <h3
+                class="font-bold text-neon-blue mb-2 line-clamp-2 group-hover:text-neon-purple transition"
+              >
+                {{ related.name }}
+              </h3>
+              <p class="text-sm text-gray-400 line-clamp-2 mb-3">
+                {{ related.description }}
+              </p>
+              <div class="text-sm font-semibold">
+                <span class="text-neon-purple"
+                  >{{ related.passing_score }}</span
+                >
+                баллов
+              </div>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
