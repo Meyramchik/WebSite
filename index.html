@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Университеты Казахстана</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🎓 Университеты Казахстана</h1>
+            <p class="subtitle">Информационный портал ведущих учебных заведений</p>
+        </div>
+    </header>
+
+    <nav class="filter-nav">
+        <div class="container">
+            <button class="filter-btn active" data-filter="all">Все города</button>
+            <button class="filter-btn" data-filter="almaty">Алматы</button>
+            <button class="filter-btn" data-filter="astana">Астана</button>
+            <button class="filter-btn" data-filter="karaganda">Караганда</button>
+            <button class="filter-btn" data-filter="kzyl-orda">Кызылорда</button>
+            <button class="filter-btn" data-filter="atyrau">Атырау</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="universities-grid" id="universitiesGrid">
+            <!-- Университеты будут загружены через JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Портал Университетов Казахстана. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
